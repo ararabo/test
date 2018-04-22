@@ -10,13 +10,17 @@ import cv2
 from matplotlib import pyplot as plt
 
 strSampleImgPath='./sampleimage/'
+strImageIcon='image/'
 strImgFileName='image_'
 strImgFileNameQry='select_001+'
 strExt_png='.png'
 strExt_jpg='.jpg'
-i=59
-strImgFile=strSampleImgPath+strImgFileName+str(i)+strExt_png
+k=59
+vLength=np.zeros(6)
+vChoice=np.zeros(6)
+strImgFile=strSampleImgPath+strImageIcon+strImgFileName+str(k)+strExt_png
 img1=cv2.imread(strImgFile,0)        # queryImage
+i=0
 for j in range(6):
     strImgFileQry=strSampleImgPath+strImgFileNameQry+str(j)+strExt_jpg
     img2 = cv2.imread(strImgFileQry,0)
@@ -45,7 +49,9 @@ for j in range(6):
     for m,n in matches:
         if m.distance < 0.70*n.distance:
             good.append([m])
-    
+    sLenthGood=len(good)
+    vLength[j]=sLenthGood
+    vChoice[i]=max(vLength)
     # cv2.drawMatchesKnn はmatchesとしてリストを期待
     img3 = cv2.drawMatchesKnn(img1,kp1,img2,kp2,good, None,flags=2)
     
